@@ -55,17 +55,17 @@ def goto (x,y,z):
   bot.pathfinder.setGoal(pathfinder.goals.GoalNear(x, y, z, RANGE_GOAL))
 
 from tkinter import *
-import webview
-
-# Create an instance of tkinter frame or window
-win = Tk()
-
-# Set the size of the window
-win.geometry("700x350")
-
-# Create a GUI window to view the HTML content
-webview.create_window('t', 'localhost:3000')
-webview.start()
+import webview 
+  
+# define an instance of tkinter 
+tk = Tk() 
+  
+#  size of the window where we show our website 
+tk.geometry("800x450") 
+  
+# Open website 
+webview.create_window('Viewer', 'http://127.0.0.1:3000') 
+webview.start() 
 
 while True:
   try:
