@@ -1,0 +1,103 @@
+from javascript import require, On, Once, AsyncTask, once, off
+import webbrowser
+import time
+
+mineflayer = require('mineflayer')
+pathfinder = require('mineflayer-pathfinder')
+viewer = require('prismarine-viewer').mineflayer
+pvp = require('mineflayer-pvp')
+#cmd = require('mineflayer-cmd')
+
+RANGE_GOAL = 1
+BOT_USERNAME = 'torsten.donfuer@gmail.com'
+
+bot = mineflayer.createBot({
+  'host': 'thearchive.world',
+  'port': 25565,
+  'username': BOT_USERNAME,
+   'version': '1.12.2', 
+   'auth': 'microsoft'
+})
+
+bot.loadPlugin(pathfinder.pathfinder)
+print("Started mineflayer")
+
+@On(bot, 'spawn')
+def handle(*args):
+  print("I spawned 👋")
+  movements = pathfinder.Movements(bot)
+  screen = viewer(bot, {'firstPerson': True, 'port': 3000, 'version': '1.12.2' })
+  print(bot.entity.position)
+
+  @On(bot, 'chat')
+  def handleMsg(this, sender, message, *args):
+    print("Got message", sender, message)
+    if sender and (sender != BOT_USERNAME):
+      bot.chat('Hi, you said ' + message)
+      if 'come' in message:
+        player = bot.players[sender]
+        print("Target", player)
+        target = player.entity
+        if not target:
+          bot.chat("I don't see you !")
+          return
+
+        pos = target.position
+        bot.pathfinder.setMovements(movements)
+        bot.pathfinder.setGoal(pathfinder.goals.GoalNear(pos.x, pos.y, pos.z, RANGE_GOAL))
+  
+
+@On(bot, "end")
+def handle(*args):
+  print("Bot ended!", args)
+
+def goto (x,y,z):
+  bot.pathfinder.setGoal(pathfinder.goals.GoalNear(x, y, z, RANGE_GOAL))
+
+from tkinter import *
+import webview
+
+# Create an instance of tkinter frame or window
+win = Tk()
+
+# Set the size of the window
+win.geometry("700x350")
+
+# Create a GUI window to view the HTML content
+webview.create_window('t', 'localhost:3000')
+webview.start()
+
+while True:
+  try:
+    while True: 
+      goto(2121132,72,285585)
+      time.sleep(5)
+
+      goto(2121110,72,285585)
+      time.sleep(5)
+
+      goto(2121110,72,285606)
+      time.sleep(5)
+
+      goto(2121130,72,285606)
+      time.sleep(5)
+
+      goto(2121132,72,285585)
+      time.sleep(5)
+  except:
+    time.sleep(10)
+    while True: 
+      goto(2121132,72,285585)
+      time.sleep(5)
+
+      goto(2121110,72,285585)
+      time.sleep(5)
+
+      goto(2121110,72,285606)
+      time.sleep(5)
+
+      goto(2121130,72,285606)
+      time.sleep(5)
+
+      goto(2121132,72,285585)
+      time.sleep(5)
